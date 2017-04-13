@@ -41,3 +41,4 @@ RUN apt-get install -y libmagickwand-6.q16-dev --no-install-recommends \
 #docker exec -it dockerlnmp_fpm_1 chown -R www-data:www-data /usr/share/ngnix/html
 #docker exec -it dockerlnmp_fpm_1 /bin/bash
 #docker exec -it dockerlnmp_fpm_1 /usr/local/bin/composer install
+
