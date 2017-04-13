@@ -14,7 +14,7 @@ nginx:
     - ./nginx/ca/server.crt/:/etc/nginx/server.crt:ro
     - ./nginx/ca/server.key/:/etc/nginx/server.key:ro
   links:
-    - fpm:__DOCKER_PHP_FPM__
+    - fpm56:__DOCKER_PHP_FPM__
 
 # php-fpm
 fpm:
@@ -34,6 +34,23 @@ fpm:
     # - DB_PASSWORD=
   links:
     - mysql:mysql
+fpm56:
+  build: ./php5.6-fpm
+  ports:
+    - "9000"
+  volumes:
+    - ./app/src:/usr/share/nginx/html
+    # Your php.ini
+    - ./php56-fpm/php.ini-production:/usr/local/etc/php/php.ini:ro
+  # environment:
+    # Set your APP env variables here:
+    # - APP_KEY=
+    # - DB_HOST=
+    # - DB_DATABASE=
+    # - DB_USERNAME=
+    # - DB_PASSWORD=
+  links:
+    - mysql:host_mysql
 
 # database
 mysql:
