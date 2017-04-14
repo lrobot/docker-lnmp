@@ -31,7 +31,7 @@ RUN docker-php-ext-install -j$(nproc) openssl ; exit 0
 RUN ls /usr/src/php/ext/openssl/ 
 RUN cp /usr/src/php/ext/openssl/config0.m4 /usr/src/php/ext/openssl/config.m4
 RUN docker-php-ext-install -j$(nproc) openssl 
-RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://raw.githubusercontent.com/composer/getcomposer.org/master/web/installer | php && mv composer.phar /usr/local/bin/composer
 RUN apt-get install -y libmagickwand-6.q16-dev --no-install-recommends \
 && ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin \
 && pecl install imagick \
