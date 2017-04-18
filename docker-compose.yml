@@ -6,7 +6,7 @@ nginx:
     - "443:443"
   volumes:
     # app
-    - ./app/site_python:/usr/share/nginx/html
+    - ./app/site_php:/usr/share/nginx/html
     # nginx configs
     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
@@ -14,23 +14,10 @@ nginx:
     - ./nginx/ca/server.crt/:/etc/nginx/server.crt:ro
     - ./nginx/ca/server.key/:/etc/nginx/server.key:ro
   links:
-    #- fpm:__DOCKER_PHP_FPM__
+    - fpm56:host_php56
     - tomcat:host_tomcat
-    - python3:host_python
     - fpm56:host_php
     - mysql:host_mysql
-
-python3:
-#: $ docker run -it --rm --name my-running-script -v "$PWD":/usr/src/myapp -w /usr/src/myapp python:3 python your-daemon-or-script.py
-  build: ./buildpy3
-  ports: 
-    - "8080"
-  volumes:
-    - ./app/site_python:/usr/src/myapp
-  links:
-    - mysql:host_mysql
-  entrypoint: /usr/src/myapp/run.sh
-  #entrypoint: tail -f /var/log/dmesg
 
 
 tomcat:
@@ -43,25 +30,6 @@ tomcat:
     - mysql:host_mysql
 
 # php-fpm
-fpm:
-  build: ./php-fpm
-  #entrypoint: echo "ijustbedisabled"
-  #entrypoint: tail -f /var/log/dmesg
-  ports:
-    - "9000"
-  volumes:
-    - ./app/site_php:/usr/share/nginx/html
-    # Your php.ini
-    - ./php-fpm/php.ini-production:/usr/local/etc/php/php.ini:ro
-  # environment:
-    # Set your APP env variables here:
-    # - APP_KEY=
-    # - DB_HOST=
-    # - DB_DATABASE=
-    # - DB_USERNAME=
-    # - DB_PASSWORD=
-  links:
-    - mysql:host_mysql
 fpm56:
   build: ./php5.6-fpm
   #entrypoint: echo "ijustbedisabled"
